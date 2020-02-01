@@ -1,7 +1,9 @@
 //This is my example Solution
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 
 class Example {
   public static void main(String[] args) {
@@ -25,8 +27,8 @@ class Example {
 
   private static double[] problem1() {
     int generations = 200;
-    int populationSize = 1200;
-    ArrayList<Chromosome> population = populate(populationSize);
+    int populationSize = 2500;
+    List<Chromosome> population = populate(populationSize);
 
     Chromosome winner = population.get(0);
 
@@ -40,14 +42,15 @@ class Example {
       population.sort(Comparator.comparing(Chromosome::getFitness));
       winner = population.get(0);
 
-      double averageFitness = population.stream().mapToDouble(Chromosome::getFitness).sum() / population.size();
-      System.out.println("Generation: " + generation + " | Average Fitness: " + averageFitness);
+      System.out.println("Generation: " + generation + " | Best Fitness: " + winner.getFitness() + " | Population: " + population.size());
 
-      // Breed fittest
-      for (int j = 0; j < populationSize / 2; j++) {
+      // Cull, and then breed the fittest
+      population = population.subList(0, population.size() / 2);
+      for (int j = 0; j < populationSize / 4; j++) {
         population.addAll(Chromosome.breed(population.get(j * 2), population.get(j * 2 + 1)));
       }
     }
+    System.out.println(Arrays.toString(winner.getData()));
     return winner.getData();
   }
 
