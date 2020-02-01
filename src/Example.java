@@ -1,7 +1,6 @@
 //This is my example Solution
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 
 class Example {
@@ -25,26 +24,37 @@ class Example {
   }
 
   private static double[] problem1() {
-    int populationSize = 12;
-    ArrayList<Chromosome> population;
+    int generations = 200;
+    int populationSize = 1200;
+    ArrayList<Chromosome> population = populate(populationSize);
 
-    population = populate(populationSize);
+    Chromosome winner = population.get(0);
 
-    for (Chromosome chromosome : population) {
-      chromosome.setFitness(Assess.getTest1(chromosome.getData()));
-      System.out.println(chromosome.getFitness());
+    for (int generation = 0; generation < generations; generation++) {
+      // Discover fitness
+      for (Chromosome chromosome : population) {
+        chromosome.setFitness(Assess.getTest1(chromosome.getData()));
+      }
+
+      // Sort by fitness
+      population.sort(Comparator.comparing(Chromosome::getFitness));
+      winner = population.get(0);
+
+      double averageFitness = population.stream().mapToDouble(Chromosome::getFitness).sum() / population.size();
+      System.out.println("Generation: " + generation + " | Average Fitness: " + averageFitness);
+
+      // Breed fittest
+      for (int j = 0; j < populationSize / 2; j++) {
+        population.addAll(Chromosome.breed(population.get(j * 2), population.get(j * 2 + 1)));
+      }
     }
-
-    Chromosome winner = population.stream().min(Comparator.comparing(Chromosome::getFitness)).get();
-    System.out.println(winner.getFitness());
     return winner.getData();
   }
 
   private static ArrayList<Chromosome> populate(int size) {
-    ArrayList<Chromosome> population = new ArrayList<>();
+    ArrayList<Chromosome> population = new ArrayList<>(size);
     for (int i = 0; i < size; i++) {
-      Chromosome chromosome = new Chromosome();
-      population.add(chromosome);
+      population.add(new Chromosome());
     }
     return population;
   }
