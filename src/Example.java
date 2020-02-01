@@ -25,17 +25,19 @@ class Example {
   }
 
   private static double[] problem1() {
+    int populationSize = 12;
     ArrayList<Chromosome> population;
-    double max = 5, min = -5;
 
-    population = populate(5);
+    population = populate(populationSize);
 
     for (Chromosome chromosome : population) {
       chromosome.setFitness(Assess.getTest1(chromosome.getData()));
-      System.out.println(Arrays.toString(chromosome.getData()));
+      System.out.println(chromosome.getFitness());
     }
 
-    return population.stream().max(Comparator.comparing(Chromosome::getFitness)).get().getData();
+    Chromosome winner = population.stream().min(Comparator.comparing(Chromosome::getFitness)).get();
+    System.out.println(winner.getFitness());
+    return winner.getData();
   }
 
   private static ArrayList<Chromosome> populate(int size) {
