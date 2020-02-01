@@ -9,6 +9,20 @@ class Example {
     String name = "Angus Clinch";
     String login = "aglc2";
 
+    double[] sol1 = problem1();
+
+    boolean[] sol2 = problem2();
+
+    //Once completed, your code must submit the results you generated, including your name and login:
+    //Use and adapt  the function below:
+    Assess.checkIn(name, login, sol1, sol2);
+
+    //Do not delete or alter the next line
+    long endT = System.currentTimeMillis();
+    System.out.println("Total execution time was: " + ((endT - startT) / 1000.0) + " seconds");
+  }
+
+  private static double[] problem1() {
     System.out.println("These are the instructions of how to use the problem library.  Please make sure you follow the instructions carefully.");
     System.out.println("For the first problem, you need to use Assess.getTest1(double, double).");
 
@@ -27,6 +41,10 @@ class Example {
     double fit = Assess.getTest1(sol1);
 
     System.out.println("The fitness of your example Solution is: " + fit);
+    return sol1;
+  }
+
+  private static boolean[] problem2() {
     System.out.println(" ");
     System.out.println(" ");
     System.out.println("Now let us turn to the second problem:");
@@ -46,14 +64,7 @@ class Example {
     //The index 0 of tmp gives the weight. Index 1 gives the utility
     System.out.println("The weight is: " + tmp[0]);
     System.out.println("The utility is: " + tmp[1]);
-
-    //Once completed, your code must submit the results you generated, including your name and login:
-    //Use and adapt  the function below:
-    Assess.checkIn(name, login, sol1, sol2);
-
-    //Do not delete or alter the next line
-    long endT = System.currentTimeMillis();
-    System.out.println("Total execution time was: " + ((endT - startT) / 1000.0) + " seconds");
+    return sol2;
   }
 
 
