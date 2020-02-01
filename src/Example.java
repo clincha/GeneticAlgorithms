@@ -1,5 +1,9 @@
 //This is my example Solution
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+
 class Example {
   public static void main(String[] args) {
     //Do not delete/alter the next line
@@ -11,11 +15,9 @@ class Example {
 
     double[] sol1 = problem1();
 
-    boolean[] sol2 = problem2();
+//    boolean[] sol2 = problem2();
 
-    //Once completed, your code must submit the results you generated, including your name and login:
-    //Use and adapt  the function below:
-    Assess.checkIn(name, login, sol1, sol2);
+//    Assess.checkIn(name, login, sol1, sol2);
 
     //Do not delete or alter the next line
     long endT = System.currentTimeMillis();
@@ -23,25 +25,26 @@ class Example {
   }
 
   private static double[] problem1() {
-    System.out.println("These are the instructions of how to use the problem library.  Please make sure you follow the instructions carefully.");
-    System.out.println("For the first problem, you need to use Assess.getTest1(double, double).");
+    ArrayList<Chromosome> population;
+    double max = 5, min = -5;
 
-    //An example solution consists of an array  of doubles of size 50
-    //Allowed values are between -5 and +5 (this is not actually checked, but no point in going beyond these values)
-    //Lower fitness is better. The optimal fitness is 0 (i.e. no negative fitness values).
-    int solSize = 20;
-    //generate a sample solution like so:
+    population = populate(5);
 
-    double[] sol1 = new double[solSize];
-    for (int j = 0; j < solSize; j++) {
-      sol1[j] = Math.random() * Math.round(5.12 * (Math.random() - Math.random()));
+    for (Chromosome chromosome : population) {
+      chromosome.setFitness(Assess.getTest1(chromosome.getData()));
+      System.out.println(Arrays.toString(chromosome.getData()));
     }
 
-    //get the fitness for a candidate solution in problem 1 like so
-    double fit = Assess.getTest1(sol1);
+    return population.stream().max(Comparator.comparing(Chromosome::getFitness)).get().getData();
+  }
 
-    System.out.println("The fitness of your example Solution is: " + fit);
-    return sol1;
+  private static ArrayList<Chromosome> populate(int size) {
+    ArrayList<Chromosome> population = new ArrayList<>();
+    for (int i = 0; i < size; i++) {
+      Chromosome chromosome = new Chromosome();
+      population.add(chromosome);
+    }
+    return population;
   }
 
   private static boolean[] problem2() {
