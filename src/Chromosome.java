@@ -6,13 +6,13 @@ class Chromosome {
   private static final int LENGTH = 20;
   private static final double MIN = -0.5, MAX = 0.5;
   private static final double MUTATION_RATE = 0.01;
-  private static final int MUTATION_LENGTH = LENGTH / 5;
-  private static final double MAX_CHANGE = 2;
+  private static final int MUTATION_LENGTH = 4;
+  private static final double MAX_CHANGE = 4;
 
   private double[] data;
   private double fitness;
 
-  private Chromosome(double[] data) {
+  Chromosome(double[] data) {
     this.data = data;
   }
 
@@ -45,31 +45,33 @@ class Chromosome {
         daughterData[i] = father.getData()[i];
       }
     }
+    Chromosome son = new Chromosome(sonData);
+    Chromosome daughter = new Chromosome(daughterData);
 
     // Mutate
     if (random.nextDouble() < MUTATION_RATE) {
-      double change = random.nextDouble() * MAX_CHANGE -  MAX_CHANGE / 2;
-      for (int gene = random.nextInt(LENGTH); gene < MUTATION_LENGTH; gene++) {
-        sonData[gene % LENGTH] += change;
-        daughterData[gene % LENGTH] += change;
-        change = random.nextDouble() * 2 - 1;
-
-        if (sonData[gene % LENGTH] < MIN) {
-          sonData[gene % LENGTH] = MIN;
-        }
-        if (sonData[gene % LENGTH] > MAX) {
-          sonData[gene % LENGTH] = MAX;
-        }
-        if (daughterData[gene % LENGTH] < MIN) {
-          daughterData[gene % LENGTH] = MIN;
-        }
-        if (daughterData[gene % LENGTH] > MAX) {
-          daughterData[gene % LENGTH] = MAX;
-        }
-
-      }
+      son.mutate();
+      daughter.mutate();
     }
-    return List.of(new Chromosome(sonData), new Chromosome(daughterData));
+
+    return List.of(son, daughter);
+  }
+
+  void mutate() {
+    Random random = new Random();
+    double change = random.nextDouble() - 0.5;
+    int startPosition = random.nextInt(LENGTH);
+    for (int gene = 0; gene < MUTATION_LENGTH; gene++) {
+      this.data[(gene + startPosition) % LENGTH] += change;
+      if (this.data[(gene + startPosition) % LENGTH] < MIN) {
+        this.data[(gene + startPosition) % LENGTH] = MIN;
+      }
+      if (this.data[(gene + startPosition) % LENGTH] > MAX) {
+        this.data[(gene + startPosition) % LENGTH] = MAX;
+      }
+      change = random.nextDouble() - 0.5;
+    }
+    this.setData(this.data);
   }
 
   @Override
@@ -83,7 +85,7 @@ class Chromosome {
     return data;
   }
 
-  public void setData(double[] data) {
+  private void setData(double[] data) {
     this.data = data;
   }
 
