@@ -33,37 +33,21 @@ class Example {
     boolean converged = false;
 
     while (!converged) {
-      // Discover fitness
       for (DoubleChromosome chromosome : population) {
         chromosome.setFitness(Assess.getTest1(Arrays.stream(chromosome.getData()).mapToDouble(Double::doubleValue).toArray()));
       }
 
-      // Sort by fitness
       population.sort(Comparator.comparing(DoubleChromosome::getFitness));
       winnerList.add(population.get(0));
 
-      // Check for convergence
-      if (winnerList.size() > minimumGenerations) {
-        converged =
-          winnerList.get(winnerList.size() - 1).equals(winnerList.get(winnerList.size() - 2)) &&
-            winnerList.get(winnerList.size() - 2).equals(winnerList.get(winnerList.size() - 3));
-      }
+      converged = isConverged(minimumGenerations, winnerList);
 
-      // Cull, and then breed the fittest
       population = population.subList(0, population.size() / 2);
       for (int j = 0; j < populationSize / 4; j++) {
         population.addAll(population.get(j * 2).breedWith(population.get(j * 2 + 1), true));
       }
     }
     return Arrays.stream(winnerList.get(winnerList.size() - 1).getData()).mapToDouble(Double::doubleValue).toArray();
-  }
-
-  public static List<DoubleChromosome> createDoubleChromosomePopulation(int size) {
-    ArrayList<DoubleChromosome> population = new ArrayList<>(size);
-    for (int i = 0; i < size; i++) {
-      population.add(new DoubleChromosome());
-    }
-    return population;
   }
 
   private static boolean[] problem2() {
@@ -74,10 +58,7 @@ class Example {
     ArrayList<BooleanChromosome> winnerList = new ArrayList<>();
     boolean converged = false;
 
-    int generation = 1;
-
     while (!converged) {
-      // Discover fitness
       for (BooleanChromosome chromosome : population) {
         double[] results = Assess.getTest2(convertToPrimitiveArray(chromosome));
         chromosome.setWeight(results[0]);
@@ -91,21 +72,22 @@ class Example {
       population.sort(Comparator.comparing(BooleanChromosome::getFitness).reversed());
       winnerList.add(population.get(0));
 
-      // Check for convergence
-      if (winnerList.size() > minimumGenerations) {
-        converged =
-          winnerList.get(winnerList.size() - 1).equals(winnerList.get(winnerList.size() - 2)) &&
-            winnerList.get(winnerList.size() - 2).equals(winnerList.get(winnerList.size() - 3));
-      }
+      converged = isConverged(minimumGenerations, winnerList);
 
-      // Cull, and then breed the fittest
       population = population.subList(0, population.size() / 2);
       for (int j = 0; j < populationSize / 4; j++) {
         population.addAll(population.get(j * 2).breedWith(population.get(j * 2 + 1), true));
       }
-      generation++;
     }
     return convertToPrimitiveArray(winnerList.get(winnerList.size() - 1));
+  }
+
+  public static List<DoubleChromosome> createDoubleChromosomePopulation(int size) {
+    ArrayList<DoubleChromosome> population = new ArrayList<>(size);
+    for (int i = 0; i < size; i++) {
+      population.add(new DoubleChromosome());
+    }
+    return population;
   }
 
   public static List<BooleanChromosome> createBooleanChromosomePopulation(int size) {
@@ -114,6 +96,16 @@ class Example {
       population.add(new BooleanChromosome());
     }
     return population;
+  }
+
+  private static boolean isConverged(int minimumGenerations, ArrayList winnerList) {
+    boolean converged = false;
+    if (winnerList.size() > minimumGenerations) {
+      converged =
+        winnerList.get(winnerList.size() - 1).equals(winnerList.get(winnerList.size() - 2)) &&
+          winnerList.get(winnerList.size() - 2).equals(winnerList.get(winnerList.size() - 3));
+    }
+    return converged;
   }
 
   private static boolean[] convertToPrimitiveArray(BooleanChromosome booleanChromosome) {
