@@ -1,7 +1,7 @@
 import java.util.List;
 import java.util.Random;
 
-class Chromosome {
+class DoubleChromosome {
 
   static final int LENGTH = 20;
   private static final double MIN = -0.5, MAX = 0.5;
@@ -11,16 +11,16 @@ class Chromosome {
   private double[] data;
   private double fitness;
 
-  Chromosome(double[] data) {
+  DoubleChromosome(double[] data) {
     this.data = data;
   }
 
-  Chromosome(double[] data, double fitness) {
+  DoubleChromosome(double[] data, double fitness) {
     this.data = data;
     this.fitness = fitness;
   }
 
-  Chromosome() {
+  DoubleChromosome() {
     data = new double[LENGTH];
     Random random = new Random();
     for (int j = 0; j < LENGTH; j++) {
@@ -28,7 +28,7 @@ class Chromosome {
     }
   }
 
-  static List<Chromosome> breed(Chromosome mother, Chromosome father, boolean mutate) {
+  static List<DoubleChromosome> breed(DoubleChromosome mother, DoubleChromosome father, boolean mutate) {
     Random random = new Random();
 
     double[] sonData = new double[LENGTH];
@@ -44,8 +44,8 @@ class Chromosome {
         daughterData[i] = father.getData()[i];
       }
     }
-    Chromosome son = new Chromosome(sonData);
-    Chromosome daughter = new Chromosome(daughterData);
+    DoubleChromosome son = new DoubleChromosome(sonData);
+    DoubleChromosome daughter = new DoubleChromosome(daughterData);
 
     // Mutate
     if (random.nextDouble() < MUTATION_RATE && mutate) {
