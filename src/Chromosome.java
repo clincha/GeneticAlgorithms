@@ -3,11 +3,10 @@ import java.util.Random;
 
 class Chromosome {
 
-  private static final int LENGTH = 20;
+  static final int LENGTH = 20;
   private static final double MIN = -0.5, MAX = 0.5;
   private static final double MUTATION_RATE = 0.01;
   private static final int MUTATION_LENGTH = 4;
-  private static final double MAX_CHANGE = 4;
 
   private double[] data;
   private double fitness;
@@ -29,7 +28,7 @@ class Chromosome {
     }
   }
 
-  static List<Chromosome> breed(Chromosome mother, Chromosome father) {
+  static List<Chromosome> breed(Chromosome mother, Chromosome father, boolean mutate) {
     Random random = new Random();
 
     double[] sonData = new double[LENGTH];
@@ -49,7 +48,7 @@ class Chromosome {
     Chromosome daughter = new Chromosome(daughterData);
 
     // Mutate
-    if (random.nextDouble() < MUTATION_RATE) {
+    if (random.nextDouble() < MUTATION_RATE && mutate) {
       son.mutate();
       daughter.mutate();
     }

@@ -26,13 +26,16 @@ class Example {
   }
 
   private static double[] problem1() {
-    int generations = 200;
+    int minimumGenerations = 10;
     int populationSize = 2500;
     List<Chromosome> population = populate(populationSize);
 
     Chromosome winner = population.get(0);
+    ArrayList<Chromosome> winnerList = new ArrayList<>();
+    winnerList.add(winner);
 
-    for (int generation = 0; generation < generations; generation++) {
+    boolean converged = false;
+    for (int generation = 0; !converged; generation++) {
       // Discover fitness
       for (Chromosome chromosome : population) {
         chromosome.setFitness(Assess.getTest1(chromosome.getData()));
@@ -40,17 +43,23 @@ class Example {
 
       // Sort by fitness
       population.sort(Comparator.comparing(Chromosome::getFitness));
-      winner = population.get(0);
+      winnerList.add(population.get(0));
 
-      System.out.println("Generation: " + generation + " | Best Fitness: " + winner.getFitness() + " | Population: " + population.size());
+      System.out.println("Generation: " + generation + " | Best Fitness: " + winnerList.get(winnerList.size() - 1).getFitness());
+
+      if (winnerList.size() > minimumGenerations) {
+        converged =
+          winnerList.get(winnerList.size() - 1).equals(winnerList.get(winnerList.size() - 2)) &&
+            winnerList.get(winnerList.size() - 2).equals(winnerList.get(winnerList.size() - 3));
+      }
 
       // Cull, and then breed the fittest
       population = population.subList(0, population.size() / 2);
       for (int j = 0; j < populationSize / 4; j++) {
-        population.addAll(Chromosome.breed(population.get(j * 2), population.get(j * 2 + 1)));
+        population.addAll(Chromosome.breed(population.get(j * 2), population.get(j * 2 + 1), true));
       }
     }
-    System.out.println(Arrays.toString(winner.getData()));
+    System.out.println(Arrays.toString(winnerList.get(winnerList.size() - 1).getData()));
     return winner.getData();
   }
 
