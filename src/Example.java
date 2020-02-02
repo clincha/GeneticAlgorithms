@@ -13,11 +13,11 @@ class Example {
     String name = "Angus Clinch";
     String login = "aglc2";
 
-//    double[] sol1 = problem1();
+    double[] sol1 = problem1();
 
     boolean[] sol2 = problem2();
 
-//    Assess.checkIn(name, login, sol1, sol2);
+    Assess.checkIn(name, login, sol1, sol2);
 
     //Do not delete or alter the next line
     long endT = System.currentTimeMillis();
@@ -102,14 +102,8 @@ class Example {
       for (int j = 0; j < populationSize / 4; j++) {
         population.addAll(BooleanChromosome.breed(population.get(j * 2), population.get(j * 2 + 1), true));
       }
-
-      System.out.println("Generation " + generation + ": " + winnerList.get(winnerList.size() - 1).getFitness() + "|" + winnerList.get(winnerList.size() - 1).getWeight());
       generation++;
     }
-
-    System.out.println(winnerList.get(0).getFitness());
-    System.out.println(winnerList.get(0).getWeight());
-
     return winnerList.get(winnerList.size() - 1).getData();
   }
 
