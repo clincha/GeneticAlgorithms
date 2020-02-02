@@ -16,9 +16,9 @@ class Example {
 
     double[] sol1 = problem1();
 
-//    boolean[] sol2 = problem2();
+    boolean[] sol2 = problem2();
 
-//    Assess.checkIn(name, login, sol1, sol2);
+    Assess.checkIn(name, login, sol1, sol2);
 
     //Do not delete or alter the next line
     long endT = System.currentTimeMillis();
@@ -29,10 +29,7 @@ class Example {
     int minimumGenerations = 10;
     int populationSize = 2500;
     List<Chromosome> population = populate(populationSize);
-
-    Chromosome winner = population.get(0);
     ArrayList<Chromosome> winnerList = new ArrayList<>();
-    winnerList.add(winner);
 
     boolean converged = false;
     for (int generation = 0; !converged; generation++) {
@@ -60,7 +57,7 @@ class Example {
       }
     }
     System.out.println(Arrays.toString(winnerList.get(winnerList.size() - 1).getData()));
-    return winner.getData();
+    return winnerList.get(winnerList.size() - 1).getData();
   }
 
   private static ArrayList<Chromosome> populate(int size) {
