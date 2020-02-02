@@ -5,7 +5,7 @@ class Chromosome {
 
   static final int LENGTH = 20;
   private static final double MIN = -0.5, MAX = 0.5;
-  private static final double MUTATION_RATE = 0.01;
+  private static final double MUTATION_RATE = 0.001;
   private static final int MUTATION_LENGTH = 4;
 
   private double[] data;

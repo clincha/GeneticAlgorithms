@@ -1,7 +1,6 @@
 //This is my example Solution
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -32,7 +31,7 @@ class Example {
     ArrayList<Chromosome> winnerList = new ArrayList<>();
 
     boolean converged = false;
-    for (int generation = 0; !converged; generation++) {
+    while(!converged) {
       // Discover fitness
       for (Chromosome chromosome : population) {
         chromosome.setFitness(Assess.getTest1(chromosome.getData()));
@@ -41,8 +40,6 @@ class Example {
       // Sort by fitness
       population.sort(Comparator.comparing(Chromosome::getFitness));
       winnerList.add(population.get(0));
-
-      System.out.println("Generation: " + generation + " | Best Fitness: " + winnerList.get(winnerList.size() - 1).getFitness());
 
       if (winnerList.size() > minimumGenerations) {
         converged =
@@ -56,7 +53,8 @@ class Example {
         population.addAll(Chromosome.breed(population.get(j * 2), population.get(j * 2 + 1), true));
       }
     }
-    System.out.println(Arrays.toString(winnerList.get(winnerList.size() - 1).getData()));
+
+
     return winnerList.get(winnerList.size() - 1).getData();
   }
 
