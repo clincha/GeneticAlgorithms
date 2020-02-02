@@ -1,8 +1,7 @@
-import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
-public class BooleanChromosome {
+public class BooleanChromosome extends Chromosome<Boolean> {
 
   static final int LENGTH = 100;
   private static final double MUTATION_RATE = 1;
@@ -10,10 +9,10 @@ public class BooleanChromosome {
 
   private double weight;
   private double fitness;
-  private boolean[] data;
+  private Boolean[] data;
 
   public BooleanChromosome() {
-    data = new boolean[LENGTH];
+    data = new Boolean[LENGTH];
     Random random = new Random();
     for (int j = 0; j < LENGTH; j++) {
       data[j] = false;
@@ -21,26 +20,17 @@ public class BooleanChromosome {
     data[random.nextInt(LENGTH)] = true;
   }
 
-  public BooleanChromosome(boolean[] data) {
+  public BooleanChromosome(Boolean[] data) {
     this.setData(data);
   }
 
-  public static List<BooleanChromosome> breed(BooleanChromosome mother, BooleanChromosome father, boolean mutate) {
+  public List<BooleanChromosome> breedWith(BooleanChromosome father, boolean mutate) {
     Random random = new Random();
 
-    boolean[] sonData = new boolean[LENGTH];
-    boolean[] daughterData = new boolean[LENGTH];
+    Boolean[] sonData = new Boolean[LENGTH];
+    Boolean[] daughterData = new Boolean[LENGTH];
 
-    for (int i = 0; i < LENGTH; i++) {
-      int cutoff = random.nextInt(LENGTH);
-      if (i < cutoff) {
-        sonData[i] = father.getData()[i];
-        daughterData[i] = mother.getData()[i];
-      } else {
-        sonData[i] = mother.getData()[i];
-        daughterData[i] = father.getData()[i];
-      }
-    }
+    crossover(LENGTH, this, father, sonData, daughterData);
     BooleanChromosome son = new BooleanChromosome(sonData);
     BooleanChromosome daughter = new BooleanChromosome(daughterData);
 
@@ -78,11 +68,11 @@ public class BooleanChromosome {
     this.fitness = fitness;
   }
 
-  public boolean[] getData() {
+  public Boolean[] getData() {
     return data;
   }
 
-  public void setData(boolean[] data) {
+  public void setData(Boolean[] data) {
     this.data = data;
   }
 }

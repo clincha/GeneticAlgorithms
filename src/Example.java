@@ -1,6 +1,7 @@
 //This is my example Solution
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -34,7 +35,7 @@ class Example {
     while (!converged) {
       // Discover fitness
       for (DoubleChromosome chromosome : population) {
-        chromosome.setFitness(Assess.getTest1(chromosome.getData()));
+        chromosome.setFitness(Assess.getTest1(Arrays.stream(chromosome.getData()).mapToDouble(Double::doubleValue).toArray()));
       }
 
       // Sort by fitness
@@ -51,10 +52,10 @@ class Example {
       // Cull, and then breed the fittest
       population = population.subList(0, population.size() / 2);
       for (int j = 0; j < populationSize / 4; j++) {
-        population.addAll(DoubleChromosome.breed(population.get(j * 2), population.get(j * 2 + 1), true));
+        population.addAll(population.get(j * 2).breedWith(population.get(j * 2 + 1), true));
       }
     }
-    return winnerList.get(winnerList.size() - 1).getData();
+    return Arrays.stream(winnerList.get(winnerList.size() - 1).getData()).mapToDouble(Double::doubleValue).toArray();
   }
 
   public static List<DoubleChromosome> createDoubleChromosomePopulation(int size) {
@@ -78,7 +79,7 @@ class Example {
     while (!converged) {
       // Discover fitness
       for (BooleanChromosome chromosome : population) {
-        double[] results = Assess.getTest2(chromosome.getData());
+        double[] results = Assess.getTest2(convertToPrimitiveArray(chromosome));
         chromosome.setWeight(results[0]);
         if (chromosome.getWeight() > limit) {
           chromosome.setFitness(0);
@@ -100,11 +101,11 @@ class Example {
       // Cull, and then breed the fittest
       population = population.subList(0, population.size() / 2);
       for (int j = 0; j < populationSize / 4; j++) {
-        population.addAll(BooleanChromosome.breed(population.get(j * 2), population.get(j * 2 + 1), true));
+        population.addAll(population.get(j * 2).breedWith(population.get(j * 2 + 1), true));
       }
       generation++;
     }
-    return winnerList.get(winnerList.size() - 1).getData();
+    return convertToPrimitiveArray(winnerList.get(winnerList.size() - 1));
   }
 
   public static List<BooleanChromosome> createBooleanChromosomePopulation(int size) {
@@ -113,6 +114,14 @@ class Example {
       population.add(new BooleanChromosome());
     }
     return population;
+  }
+
+  private static boolean[] convertToPrimitiveArray(BooleanChromosome booleanChromosome) {
+    boolean[] result = new boolean[booleanChromosome.getData().length];
+    for (int i = 0; i < booleanChromosome.getData().length; i++) {
+      result[i] = booleanChromosome.getData()[i];
+    }
+    return result;
   }
 
 

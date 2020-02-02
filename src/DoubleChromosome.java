@@ -1,49 +1,40 @@
 import java.util.List;
 import java.util.Random;
 
-class DoubleChromosome {
+class DoubleChromosome extends Chromosome<Double> {
 
   static final int LENGTH = 20;
-  private static final double MIN = -0.5, MAX = 0.5;
-  private static final double MUTATION_RATE = 0.001;
+  private static final Double MIN = -0.5, MAX = 0.5;
+  private static final Double MUTATION_RATE = 0.001;
   private static final int MUTATION_LENGTH = 4;
 
-  private double[] data;
-  private double fitness;
+  private Double[] data;
+  private Double fitness;
 
-  DoubleChromosome(double[] data) {
+  DoubleChromosome(Double[] data) {
     this.data = data;
   }
 
-  DoubleChromosome(double[] data, double fitness) {
+  DoubleChromosome(Double[] data, Double fitness) {
     this.data = data;
     this.fitness = fitness;
   }
 
   DoubleChromosome() {
-    data = new double[LENGTH];
+    data = new Double[LENGTH];
     Random random = new Random();
     for (int j = 0; j < LENGTH; j++) {
       data[j] = random.nextDouble() - 0.5;
     }
   }
 
-  static List<DoubleChromosome> breed(DoubleChromosome mother, DoubleChromosome father, boolean mutate) {
+  List<DoubleChromosome> breedWith(DoubleChromosome father, boolean mutate) {
     Random random = new Random();
 
-    double[] sonData = new double[LENGTH];
-    double[] daughterData = new double[LENGTH];
+    Double[] sonData = new Double[LENGTH];
+    Double[] daughterData = new Double[LENGTH];
 
-    for (int i = 0; i < LENGTH; i++) {
-      int cutoff = random.nextInt(LENGTH);
-      if (i < cutoff) {
-        sonData[i] = father.getData()[i];
-        daughterData[i] = mother.getData()[i];
-      } else {
-        sonData[i] = mother.getData()[i];
-        daughterData[i] = father.getData()[i];
-      }
-    }
+    crossover(LENGTH, this, father, sonData, daughterData);
     DoubleChromosome son = new DoubleChromosome(sonData);
     DoubleChromosome daughter = new DoubleChromosome(daughterData);
 
@@ -80,19 +71,19 @@ class DoubleChromosome {
       '}';
   }
 
-  double[] getData() {
+  Double[] getData() {
     return data;
   }
 
-  private void setData(double[] data) {
+  private void setData(Double[] data) {
     this.data = data;
   }
 
-  double getFitness() {
+  Double getFitness() {
     return fitness;
   }
 
-  void setFitness(double fitness) {
+  void setFitness(Double fitness) {
     this.fitness = fitness;
   }
 }
