@@ -12,21 +12,24 @@ class DoubleChromosome extends Chromosome<Double> {
   private Double[] data;
   private Double fitness;
 
-  DoubleChromosome(Double[] data) {
-    this.data = data;
-  }
-
-  DoubleChromosome(Double[] data, Double fitness) {
-    this.data = data;
-    this.fitness = fitness;
-  }
-
   DoubleChromosome() {
     data = new Double[LENGTH];
     Random random = new Random();
     for (int j = 0; j < LENGTH; j++) {
       data[j] = random.nextDouble() - 0.5;
     }
+  }
+
+  DoubleChromosome(Double[] data) {
+    this.data = data;
+  }
+
+  public static List<DoubleChromosome> createDoubleChromosomePopulation(int size) {
+    ArrayList<DoubleChromosome> population = new ArrayList<>(size);
+    for (int i = 0; i < size; i++) {
+      population.add(new DoubleChromosome());
+    }
+    return population;
   }
 
   List<DoubleChromosome> breedWith(Chromosome<Double> father, boolean mutate) {
@@ -65,12 +68,12 @@ class DoubleChromosome extends Chromosome<Double> {
     this.setData(this.data);
   }
 
-  public static List<DoubleChromosome> createDoubleChromosomePopulation(int size) {
-    ArrayList<DoubleChromosome> population = new ArrayList<>(size);
-    for (int i = 0; i < size; i++) {
-      population.add(new DoubleChromosome());
+  Double calculateFitness() {
+    double[] primitiveArray = new double[this.data.length];
+    for (int i = 0; i < primitiveArray.length; i++) {
+      primitiveArray[i] = this.data[i];
     }
-    return population;
+    return Assess.getTest1(primitiveArray);
   }
 
   @Override
@@ -86,13 +89,5 @@ class DoubleChromosome extends Chromosome<Double> {
 
   private void setData(Double[] data) {
     this.data = data;
-  }
-
-  Double getFitness() {
-    return fitness;
-  }
-
-  void setFitness(Double fitness) {
-    this.fitness = fitness;
   }
 }

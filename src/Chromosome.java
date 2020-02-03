@@ -1,7 +1,7 @@
 import java.util.List;
 import java.util.Random;
 
-public abstract class Chromosome<T> implements Comparable<Chromosome> {
+public abstract class Chromosome<T> implements Comparable<Chromosome<T>> {
 
   void crossover(int length, Chromosome<T> mother, Chromosome<T> father, T[] sonData, T[] daughterData) {
     Random random = new Random();
@@ -19,12 +19,12 @@ public abstract class Chromosome<T> implements Comparable<Chromosome> {
 
   abstract T[] getData();
 
-  abstract Double getFitness();
+  abstract Double calculateFitness();
 
   abstract List<? extends Chromosome<T>> breedWith(Chromosome<T> father, boolean mutate);
 
   @Override
   public int compareTo(Chromosome o) {
-    return this.getFitness().compareTo(o.getFitness());
+    return this.calculateFitness().compareTo(o.calculateFitness());
   }
 }

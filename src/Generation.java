@@ -22,7 +22,7 @@ abstract class Generation {
     }
 
     population = population.stream()
-      .sorted((a, b) -> Double.compare(b.getFitness(), a.getFitness()))
+      .sorted((a, b) -> Double.compare(b.calculateFitness(), a.calculateFitness()))
       .collect(Collectors.toCollection(ArrayList::new));
 
     winner = population.get(0);

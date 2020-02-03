@@ -8,8 +8,6 @@ public class BooleanChromosome extends Chromosome<Boolean> {
   private static final int MUTATION_LENGTH = 5;
   private static final int WEIGHT_LIMIT = 500;
 
-  private double weight;
-  private double fitness;
   private Boolean[] data;
 
   public BooleanChromosome() {
@@ -19,10 +17,12 @@ public class BooleanChromosome extends Chromosome<Boolean> {
       data[j] = false;
     }
     data[random.nextInt(LENGTH)] = true;
+    calculateFitness();
   }
 
   public BooleanChromosome(Boolean[] data) {
     this.setData(data);
+    calculateFitness();
   }
 
   public List<BooleanChromosome> breedWith(Chromosome<Boolean> father, boolean mutate) {
@@ -35,7 +35,6 @@ public class BooleanChromosome extends Chromosome<Boolean> {
     BooleanChromosome son = new BooleanChromosome(sonData);
     BooleanChromosome daughter = new BooleanChromosome(daughterData);
 
-    // Mutate
     if (random.nextDouble() < MUTATION_RATE && mutate) {
       son.mutate();
       daughter.mutate();
@@ -53,35 +52,14 @@ public class BooleanChromosome extends Chromosome<Boolean> {
     this.setData(this.data);
   }
 
-  private void checkAnswers() {
-    boolean[] primitiveArray = new boolean[this.getData().length];
+  public Double calculateFitness() {
+    boolean[] primitiveArray = new boolean[this.data.length];
     for (int i = 0; i < primitiveArray.length; i++) {
-      primitiveArray[i] = this.getData()[i];
+      primitiveArray[i] = this.data[i];
     }
-    this.weight = Assess.getTest2(primitiveArray)[0];
-    this.fitness = Assess.getTest2(primitiveArray)[1];
-
-    if (weight > WEIGHT_LIMIT) {
-      this.fitness = 0;
-    }
-  }
-
-  public double getWeight() {
-    checkAnswers();
-    return this.fitness;
-  }
-
-  public void setWeight(double weight) {
-    this.weight = weight;
-  }
-
-  public Double getFitness() {
-    checkAnswers();
-    return this.fitness;
-  }
-
-  public void setFitness(double fitness) {
-    this.fitness = fitness;
+    double[] results = Assess.getTest2(primitiveArray);
+    double weight = results[0];
+    return weight > WEIGHT_LIMIT ? 0 : results[1];
   }
 
   public Boolean[] getData() {
