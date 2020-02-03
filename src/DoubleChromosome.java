@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -28,7 +29,7 @@ class DoubleChromosome extends Chromosome<Double> {
     }
   }
 
-  List<DoubleChromosome> breedWith(DoubleChromosome father, boolean mutate) {
+  List<DoubleChromosome> breedWith(Chromosome<Double> father, boolean mutate) {
     Random random = new Random();
 
     Double[] sonData = new Double[LENGTH];
@@ -62,6 +63,14 @@ class DoubleChromosome extends Chromosome<Double> {
       change = random.nextDouble() - 0.5;
     }
     this.setData(this.data);
+  }
+
+  public static List<DoubleChromosome> createDoubleChromosomePopulation(int size) {
+    ArrayList<DoubleChromosome> population = new ArrayList<>(size);
+    for (int i = 0; i < size; i++) {
+      population.add(new DoubleChromosome());
+    }
+    return population;
   }
 
   @Override

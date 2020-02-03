@@ -6,6 +6,7 @@ public class BooleanChromosome extends Chromosome<Boolean> {
   static final int LENGTH = 100;
   private static final double MUTATION_RATE = 1;
   private static final int MUTATION_LENGTH = 5;
+  private static final int WEIGHT_LIMIT = 500;
 
   private double weight;
   private double fitness;
@@ -24,7 +25,7 @@ public class BooleanChromosome extends Chromosome<Boolean> {
     this.setData(data);
   }
 
-  public List<BooleanChromosome> breedWith(BooleanChromosome father, boolean mutate) {
+  public List<BooleanChromosome> breedWith(Chromosome<Boolean> father, boolean mutate) {
     Random random = new Random();
 
     Boolean[] sonData = new Boolean[LENGTH];
@@ -52,16 +53,31 @@ public class BooleanChromosome extends Chromosome<Boolean> {
     this.setData(this.data);
   }
 
+  private void checkAnswers() {
+    boolean[] primitiveArray = new boolean[this.getData().length];
+    for (int i = 0; i < primitiveArray.length; i++) {
+      primitiveArray[i] = this.getData()[i];
+    }
+    this.weight = Assess.getTest2(primitiveArray)[0];
+    this.fitness = Assess.getTest2(primitiveArray)[1];
+
+    if (weight > WEIGHT_LIMIT) {
+      this.fitness = 0;
+    }
+  }
+
   public double getWeight() {
-    return weight;
+    checkAnswers();
+    return this.fitness;
   }
 
   public void setWeight(double weight) {
     this.weight = weight;
   }
 
-  public double getFitness() {
-    return fitness;
+  public Double getFitness() {
+    checkAnswers();
+    return this.fitness;
   }
 
   public void setFitness(double fitness) {
