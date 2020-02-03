@@ -38,6 +38,8 @@ class Example {
 
       generations.add(generation);
 
+      System.out.println("Generation: " + generation.getGeneration() + " | " + generation.getWinner().calculateFitness());
+
       converged = isConverged(
         minimumGenerations,
         generations.stream()

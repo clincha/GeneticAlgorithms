@@ -62,6 +62,11 @@ public class BooleanChromosome extends Chromosome<Boolean> {
     return weight > WEIGHT_LIMIT ? 0 : results[1];
   }
 
+  @Override
+  public int compareTo(Chromosome o) {
+    return o.calculateFitness().compareTo(this.calculateFitness());
+  }
+
   public Boolean[] getData() {
     return data;
   }
