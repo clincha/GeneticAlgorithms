@@ -10,7 +10,6 @@ class DoubleChromosome extends Chromosome<Double> {
   private static final int MUTATION_LENGTH = 4;
 
   private Double[] data;
-  private Double fitness;
 
   DoubleChromosome() {
     data = new Double[LENGTH];
@@ -74,13 +73,6 @@ class DoubleChromosome extends Chromosome<Double> {
       primitiveArray[i] = this.data[i];
     }
     return Assess.getTest1(primitiveArray);
-  }
-
-  @Override
-  public String toString() {
-    return "Chromosome{" +
-      "fitness=" + fitness +
-      '}';
   }
 
   Double[] getData() {

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,13 +28,22 @@ abstract class Generation {
 
     winner = population.get(0);
 
-    population = population.subList(0, population.size() / 2);
-    for (int j = 0; j < populationSize / 4; j++) {
-      population.addAll(population.get(j * 2).breedWith(population.get(j * 2 + 1), true));
-    }
-  }
+    List top25 = population.subList(0, (int) (population.size() - population.size() * 0.75));
+    List mid50 = population.subList((int) (population.size() - population.size() * 0.75), (int) (population.size() - population.size() * 0.25));
 
-  abstract List<? extends Chromosome> populate(int size);
+    Collections.shuffle(mid50);
+
+    List<? extends Chromosome> newPopulation = new ArrayList<>();
+
+    newPopulation.addAll(top25);
+    newPopulation.addAll(mid50.subList(0, mid50.size() / 2));
+
+    for (int j = 0; j < populationSize / 4; j++) {
+      newPopulation.addAll(population.get(j * 2).breedWith(population.get(j * 2 + 1), true));
+    }
+
+    population = newPopulation;
+  }
 
   public int getGeneration() {
     return generation;
@@ -58,4 +68,6 @@ abstract class Generation {
   public void setPopulation(List<Chromosome> population) {
     this.population = population;
   }
+
+  abstract List<? extends Chromosome> populate(int size);
 }

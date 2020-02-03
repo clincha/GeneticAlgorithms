@@ -19,6 +19,8 @@ public abstract class Chromosome<T> implements Comparable<Chromosome<T>> {
 
   abstract T[] getData();
 
+  abstract void mutate();
+
   abstract Double calculateFitness();
 
   abstract List<? extends Chromosome<T>> breedWith(Chromosome<T> father, boolean mutate);
