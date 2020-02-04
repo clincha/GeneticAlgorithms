@@ -29,7 +29,7 @@ public class BooleanChromosomeTest {
     BooleanChromosome mother = new BooleanChromosome(Arrays.copyOf(getAllBooleanTestValues(true), BooleanChromosome.LENGTH));
     BooleanChromosome father = new BooleanChromosome(Arrays.copyOf(getAllBooleanTestValues(false), BooleanChromosome.LENGTH));
 
-    List<BooleanChromosome> children = mother.breedWith(father, false);
+    List<Chromosome<Boolean>> children = mother.breedWith(father, false);
 
     assertEquals(children.get(0).getData()[0], father.getData()[0]);
     assertEquals(children.get(0).getData()[children.get(0).getData().length - 1], mother.getData()[0]);

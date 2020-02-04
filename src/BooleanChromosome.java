@@ -25,7 +25,7 @@ public class BooleanChromosome extends Chromosome<Boolean> {
     calculateFitness();
   }
 
-  public List<BooleanChromosome> breedWith(Chromosome<Boolean> father, boolean mutate) {
+  public List<Chromosome<Boolean>> breedWith(Chromosome<Boolean> father, boolean mutate) {
     Random random = new Random();
 
     Boolean[] sonData = new Boolean[LENGTH];

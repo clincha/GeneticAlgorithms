@@ -1,19 +1,19 @@
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-abstract class Generation {
+abstract class Generation<T> {
 
-  protected List<? extends Chromosome> population;
+  List<Chromosome<T>> population;
+
   private int generation;
-  private Chromosome winner;
+  private Chromosome<T> winner;
 
   public Generation(int populationSize) {
     this(null, populationSize);
   }
 
-  public Generation(Generation previousGeneration, int populationSize) {
+  public Generation(Generation<T> previousGeneration, int populationSize) {
     if (previousGeneration == null) {
       this.population = populate(populationSize);
       this.generation = 0;
@@ -28,20 +28,19 @@ abstract class Generation {
 
     winner = population.get(0);
 
-    List<? extends Chromosome> newPopulation = cull();
+    List<Chromosome<T>> newPopulation = cull();
 
     population = breed(populationSize, newPopulation);
   }
 
-  private List<? extends Chromosome> cull() {
+  private List<Chromosome<T>> cull() {
     return population.subList(0, population.size() / 2);
   }
 
-  private List<? extends Chromosome> breed(int populationSize, List<? extends Chromosome> population) {
+  private List<Chromosome<T>> breed(int populationSize, List<Chromosome<T>> population) {
     for (int j = 0; j < populationSize / 4; j++) {
       population.addAll(this.population.get(j * 2).breedWith(this.population.get(j * 2 + 1), true));
     }
-
     return population;
   }
 
@@ -53,21 +52,21 @@ abstract class Generation {
     this.generation = generation;
   }
 
-  public Chromosome getWinner() {
+  public Chromosome<T> getWinner() {
     return winner;
   }
 
-  public void setWinner(Chromosome winner) {
+  public void setWinner(Chromosome<T> winner) {
     this.winner = winner;
   }
 
-  public List<? extends Chromosome> getPopulation() {
+  public List<Chromosome<T>> getPopulation() {
     return population;
   }
 
-  public void setPopulation(List<Chromosome> population) {
+  public void setPopulation(List<Chromosome<T>> population) {
     this.population = population;
   }
 
-  abstract List<? extends Chromosome> populate(int size);
+  abstract List<Chromosome<T>> populate(int size);
 }

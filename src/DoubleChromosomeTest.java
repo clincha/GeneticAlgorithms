@@ -29,7 +29,7 @@ public class DoubleChromosomeTest {
     DoubleChromosome mother = new DoubleChromosome(Arrays.copyOf(getAllDoubleTestValues(0.0), DoubleChromosome.LENGTH));
     DoubleChromosome father = new DoubleChromosome(Arrays.copyOf(getAllDoubleTestValues(1.0), DoubleChromosome.LENGTH));
 
-    List<DoubleChromosome> children = mother.breedWith(father, false);
+    List<Chromosome<Double>> children = mother.breedWith(father, false);
 
     assertEquals(children.get(0).getData()[0], father.getData()[0], 0.0);
     assertEquals(children.get(0).getData()[children.get(0).getData().length - 1], mother.getData()[0], 0.0);

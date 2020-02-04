@@ -31,7 +31,7 @@ class DoubleChromosome extends Chromosome<Double> {
     return population;
   }
 
-  List<DoubleChromosome> breedWith(Chromosome<Double> father, boolean mutate) {
+  List<Chromosome<Double>> breedWith(Chromosome<Double> father, boolean mutate) {
     Random random = new Random();
 
     Double[] sonData = new Double[LENGTH];

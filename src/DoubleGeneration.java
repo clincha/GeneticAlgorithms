@@ -1,15 +1,15 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class DoubleGeneration extends Generation {
+public class DoubleGeneration extends Generation<Double> {
 
-  public DoubleGeneration(Generation previousGeneration, int populationSize) {
+  public DoubleGeneration(Generation<Double> previousGeneration, int populationSize) {
     super(previousGeneration, populationSize);
   }
 
   @Override
-  List<? extends Chromosome<Double>> populate(int size) {
-    ArrayList<DoubleChromosome> result = new ArrayList<>(size);
+  List<Chromosome<Double>> populate(int size) {
+    ArrayList<Chromosome<Double>> result = new ArrayList<>(size);
     for (int i = 0; i < size; i++) {
       result.add(new DoubleChromosome());
     }

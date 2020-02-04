@@ -23,7 +23,7 @@ public abstract class Chromosome<T> implements Comparable<Chromosome<T>> {
 
   abstract Double calculateFitness();
 
-  abstract List<? extends Chromosome<T>> breedWith(Chromosome<T> father, boolean mutate);
+  abstract List<Chromosome<T>> breedWith(Chromosome<T> father, boolean mutate);
 
   @Override
   public int compareTo(Chromosome o) {
