@@ -45,7 +45,7 @@ class Example {
           .collect(Collectors.toCollection(ArrayList::new))
       );
     }
-    return Arrays.stream(((DoubleChromosome) (generations.get(generations.size() - 1).getWinner())).getData()).mapToDouble(Double::doubleValue).toArray();
+    return Arrays.stream(generations.get(generations.size() - 1).getWinner().getData()).mapToDouble(Double::doubleValue).toArray();
   }
 
   private static boolean[] problem2() {
@@ -71,7 +71,7 @@ class Example {
     return convertToPrimitiveArray((BooleanChromosome) (generations.get(generations.size() - 1).getWinner()));
   }
 
-  private static boolean isConverged(int minimumGenerations, List generations) {
+  private static boolean isConverged(int minimumGenerations, List<Chromosome<?>> generations) {
     boolean converged = false;
     if (generations.size() > minimumGenerations) {
       converged =
