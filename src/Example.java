@@ -27,7 +27,7 @@ class Example {
 
   private static double[] problem1() {
     int minimumGenerations = 100;
-    int populationSize = 2500;
+    int populationSize = 10000;
 
     boolean converged = false;
     ArrayList<DoubleGeneration> generations = new ArrayList<>();
@@ -50,7 +50,7 @@ class Example {
 
   private static boolean[] problem2() {
     int minimumGenerations = 100;
-    int populationSize = 2500;
+    int populationSize = 10000;
 
     boolean converged = false;
     ArrayList<BooleanGeneration> generations = new ArrayList<>();
@@ -71,12 +71,12 @@ class Example {
     return convertToPrimitiveArray((BooleanChromosome) (generations.get(generations.size() - 1).getWinner()));
   }
 
-  private static boolean isConverged(int minimumGenerations, List<Chromosome<?>> generations) {
+  private static boolean isConverged(int minimumGenerations, List<Chromosome<?>> winners) {
     boolean converged = false;
-    if (generations.size() > minimumGenerations) {
+    if (winners.size() > minimumGenerations) {
       converged =
-        generations.get(generations.size() - 1).equals(generations.get(generations.size() - 2)) &&
-          generations.get(generations.size() - 2).equals(generations.get(generations.size() - 3));
+        winners.get(winners.size() - 1).equals(winners.get(winners.size() - 2)) &&
+          winners.get(winners.size() - 2).equals(winners.get(winners.size() - 3));
     }
     return converged;
   }

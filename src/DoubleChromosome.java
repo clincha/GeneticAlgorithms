@@ -6,8 +6,6 @@ class DoubleChromosome extends Chromosome<Double> {
 
   static final int LENGTH = 20;
   private static final Double MIN = -0.5, MAX = 0.5;
-  private static final Double MUTATION_RATE = 0.001;
-  private static final int MUTATION_LENGTH = 4;
 
   private Double[] data;
 

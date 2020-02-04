@@ -4,8 +4,6 @@ import java.util.Random;
 public class BooleanChromosome extends Chromosome<Boolean> {
 
   static final int LENGTH = 100;
-  private static final double MUTATION_RATE = 1;
-  private static final int MUTATION_LENGTH = 5;
   private static final int WEIGHT_LIMIT = 500;
 
   private Boolean[] data;
