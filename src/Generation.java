@@ -28,21 +28,21 @@ abstract class Generation {
 
     winner = population.get(0);
 
-    List top25 = population.subList(0, (int) (population.size() - population.size() * 0.75));
-    List mid50 = population.subList((int) (population.size() - population.size() * 0.75), (int) (population.size() - population.size() * 0.25));
+    List<? extends Chromosome> newPopulation = cull();
 
-    Collections.shuffle(mid50);
+    population = breed(populationSize, newPopulation);
+  }
 
-    List<? extends Chromosome> newPopulation = new ArrayList<>();
+  private List<? extends Chromosome> cull() {
+    return population.subList(0, population.size() / 2);
+  }
 
-    newPopulation.addAll(top25);
-    newPopulation.addAll(mid50.subList(0, mid50.size() / 2));
-
+  private List<? extends Chromosome> breed(int populationSize, List<? extends Chromosome> population) {
     for (int j = 0; j < populationSize / 4; j++) {
-      newPopulation.addAll(population.get(j * 2).breedWith(population.get(j * 2 + 1), true));
+      population.addAll(this.population.get(j * 2).breedWith(this.population.get(j * 2 + 1), true));
     }
 
-    population = newPopulation;
+    return population;
   }
 
   public int getGeneration() {
