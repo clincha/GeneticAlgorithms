@@ -75,8 +75,8 @@ class Example {
     boolean converged = false;
     if (winners.size() > minimumGenerations) {
       converged =
-        winners.get(winners.size() - 1).equals(winners.get(winners.size() - 2)) &&
-          winners.get(winners.size() - 2).equals(winners.get(winners.size() - 3));
+        winners.get(winners.size() - 1).calculateFitness() - winners.get(winners.size() - 2).calculateFitness() < 0.0000000000000001 &&
+          winners.get(winners.size() - 2).calculateFitness() - winners.get(winners.size() - 3).calculateFitness() < 0.0000000000000001;
     }
     return converged;
   }

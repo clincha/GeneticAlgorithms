@@ -5,7 +5,7 @@ import java.util.Random;
 class DoubleChromosome extends Chromosome<Double> {
 
   static final int LENGTH = 20;
-  private static final Double MIN = -0.5, MAX = 0.5;
+  private static final Double MIN = -0.6, MAX = 0.6;
 
   private Double[] data;
 
@@ -13,7 +13,7 @@ class DoubleChromosome extends Chromosome<Double> {
     data = new Double[LENGTH];
     Random random = new Random();
     for (int j = 0; j < LENGTH; j++) {
-      data[j] = random.nextDouble() - 0.5;
+      data[j] = random.nextDouble() * 1.2 - 0.6;
     }
   }
 
@@ -50,7 +50,7 @@ class DoubleChromosome extends Chromosome<Double> {
 
   void mutate() {
     Random random = new Random();
-    double change = random.nextDouble() - 0.5;
+    double change = random.nextDouble() - 0.6;
     int startPosition = random.nextInt(LENGTH);
     for (int gene = 0; gene < MUTATION_LENGTH; gene++) {
       this.data[(gene + startPosition) % LENGTH] += change;
@@ -60,7 +60,7 @@ class DoubleChromosome extends Chromosome<Double> {
       if (this.data[(gene + startPosition) % LENGTH] > MAX) {
         this.data[(gene + startPosition) % LENGTH] = MAX;
       }
-      change = random.nextDouble() - 0.5;
+      change = random.nextDouble() - 0.6;
     }
     this.setData(this.data);
   }
