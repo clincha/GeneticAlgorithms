@@ -22,18 +22,18 @@ Dear Angus,
 
 The results of the test harness were as follows:
 
-1.txt   correct and optimal
-2.txt   correct and optimal
-3.txt   correct and optimal
-4.txt   correct and optimal
-5.txt   correct and optimal
-6.txt   correct and optimal
-7.txt   correct and optimal
-8.txt   correct and optimal
-9.txt   correct and optimal
-10.txt  correct and optimal
-11.txt  correct and optimal
-12.txt  correct and optimal
+    1.txt   correct and optimal
+    2.txt   correct and optimal
+    3.txt   correct and optimal
+    4.txt   correct and optimal
+    5.txt   correct and optimal
+    6.txt   correct and optimal
+    7.txt   correct and optimal
+    8.txt   correct and optimal
+    9.txt   correct and optimal
+    10.txt  correct and optimal
+    11.txt  correct and optimal
+    12.txt  correct and optimal
 
 take-away lesson:
 
